@@ -1,0 +1,17 @@
+DirectoryIndex index.php
+RewriteEngine on
+
+#Maximum allowed size for uploaded files.
+  php_value upload_max_filesize 400M
+# upload_max_filesize = 400M
+
+# Must be greater than or equal to upload_max_filesize
+  php_value post_max_size 400M
+# post_max_size = 400M
+ 
+RewriteCond $1 !^(index\.php|(.*)\.swf|forums|images|css|downloads|jquery|js|robots\.txt|favicon\.ico)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ./index.php?$1 [L,QSA]
+
+
