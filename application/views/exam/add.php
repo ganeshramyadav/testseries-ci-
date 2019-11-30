@@ -1,29 +1,29 @@
 <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fa fa-users"></i> <?php echo $title; ?>
+          <i class="fa fa-users"></i> <?php echo $title; ?>
       </h1>
     </section>
-
+    
     <section class="content">
         <div class="row">
             <div class="col-md-8">
                 <div class="box box-primary">
                     <div class="box-header">
-                        <h3 class="box-title"> Details</h3>
+                        <h3 class="box-title">Examination Details</h3>
                     </div>
+                    <!-- form start -->
                     <?php $this->load->helper("form"); ?>
-                    <form role="form" action="<?php echo base_url().$routeName ?>" method="post" id="edit" enctype="multipart/form-data">
+                    <form role="form" id="add" action="<?php echo base_url().$routeName ?>" method="post" enctype="multipart/form-data">
                         <div class="box-body">
-
+                            
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" placeholder="File Name" name="title" value="<?php echo $Info->title; ?>" maxlength="128">
-                                        <input type="hidden" value="<?php echo $Info->id; ?>" name="Id" id="Id" />
+                                        <input type="text" class="form-control" id="title" placeholder="File Name" name="title" value="<?php echo set_value('title'); ?>" maxlength="128">
                                     </div>
-                                    
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -34,12 +34,12 @@
                                             if(!empty($Category)) {
                                                 if($Category->id){
                                                 ?>
-                                                    <option value="<?php echo $Category->id; ?>" <?php if($Category->id == $Info->category_id){ echo "selected"; } ?>><?php echo $Category->name ?></option>
+                                                    <option value="<?php echo $Category->id; ?>" <?php if($Category->id == set_value('subcat')) {echo "selected=selected";} ?>><?php echo $Category->name ?></option>
                                                 <?php
                                                 }else{
                                                     foreach ($Category as $rl) {
                                                         ?>
-                                                        <option value="<?php echo $rl->id; ?>" <?php if($rl->id == $Info->category_id){ echo "selected"; } ?>><?php echo $rl->name ?></option>
+                                                        <option value="<?php echo $rl->id; ?>" <?php if($rl->id == set_value('subcat')) {echo "selected=selected";} ?>><?php echo $rl->name ?></option>
                                                         <?php
                                                     }
                                                 }
@@ -60,12 +60,12 @@
                                             if(!empty($SubCategory)) {
                                                 if($SubCategory->id){
                                                 ?>
-                                                    <option value="<?php echo $SubCategory->id; ?>" <?php if($SubCategory->id == $Info->subcategory_id){ echo "selected"; } ?>><?php echo $SubCategory->name ?></option>
+                                                    <option value="<?php echo $SubCategory->id; ?>" <?php if($SubCategory->id == set_value('subcat')) {echo "selected=selected";} ?>><?php echo $SubCategory->name ?></option>
                                                 <?php
                                                 }else{
                                                     foreach ($SubCategory as $rl) {
                                                         ?>
-                                                        <option value="<?php echo $rl->id; ?>" <?php if($rl->id == $Info->category_id){ echo "selected"; } ?>><?php echo $rl->name ?></option>
+                                                        <option value="<?php echo $rl->id; ?>" <?php if($rl->id == set_value('subcat')) {echo "selected=selected";} ?>><?php echo $rl->name ?></option>
                                                         <?php
                                                     }
                                                 }
@@ -79,8 +79,8 @@
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status" >
-                                            <option value="0" <?php if($Info->active == 0){ echo "selected"; } ?>>Inactive</option>
-                                            <option value="1" <?php if($Info->active == 1){ echo "selected"; } ?>>Active</option>
+                                            <option value="0" >Inactive</option>
+                                            <option value="1" >Active</option>
                                         </select>
                                     </div>
                                 </div>
@@ -90,14 +90,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="noq">Number Of Questions</label>
-                                        <input type="number" class="form-control" id="noq" placeholder="Number Of Questions" name="noq" value="<?php echo $Info->no_of_question; ?>" >
+                                        <input type="number" class="form-control" id="noq" placeholder="Number Of Questions" name="noq" value="<?php echo set_value('noq'); ?>" >
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="duration">Exam Duration (In Mintes)</label>
-                                        <input type="number" class="form-control" id="duration" placeholder="Exam Duration" name="duration" value="<?php echo $Info->duration; ?>">
+                                        <input type="number" class="form-control" id="duration" placeholder="Exam Duration" name="duration" value="<?php echo set_value('duration'); ?>">
                                     </div>
                                 </div>
                             </div>
@@ -106,32 +106,26 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="year">Year</label>
-                                        <input type="number" class="form-control required" value="<?php echo $Info->year; ?>" id="year" name="year" maxlength="4">
+                                        <input type="number" class="form-control required" value="<?php echo set_value('year'); ?>" id="year" name="year" maxlength="4">
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="thumb">Thumbnail ( Only JPG )</label>
                                         <input type="file" name="thumb" id="thumb" accept="image/jpg,image/jpeg,image/png" />
                                     </div>
-                                    
-                                </div>
-                                <div class="col-md-6">
-                                    <?php if($Info->image_url){ ?>
-                                        <div class="form-group">
-                                            <a class="btn btn-primary" href="<?php echo base_url().$Info->image_url ?>" target="blank">
-                                            <?php if(!empty($Info->image_url)){ ?>
-                                                <i class="fa fa-file-image-o" aria-hidden="true"></i>
-                                                <span>View Thumbnail</span>
-                                            <?php } ?>
-                                            </a>
-                                        </div>
-                                    <?php } ?>
                                 </div>
                             </div>
+
+                            <!-- <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="thumb">Thumbnail ( Only JPG )</label>
+                                        <input type="file" name="thumb" id="thumb" accept="image/jpg,image/jpeg,image/png" />
+                                    </div>
+                                </div>
+                            </div> -->
+                            
                         </div><!-- /.box-body -->
     
                         <div class="box-footer">
@@ -170,15 +164,16 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>    
     </section>
+    
 </div>
-
 <script src="<?php echo base_url(); ?>assets/js/ajax.js" type="text/javascript"></script>
+
 <script type="text/javascript">
     getAjax('#catname', "#subcat", 'examsubcat/', "...", 'name');
     $(document).ready(function(){
-        var editUserForm = $("#edit");
+        var editUserForm = $("#add");
         var validator = editUserForm.validate({
             rules:{
                 title :{ required : true },

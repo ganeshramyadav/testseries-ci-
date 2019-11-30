@@ -202,7 +202,7 @@
                                     <h3 class="title"><a href="#"><?php echo $record->name; ?></a></h3>
                                     <span class=""><?php echo $record->CatName; ?></span>
                                     <span class=""><?php echo $record->SubcatName." ( ".$record->year." )"; ?></span>
-                                    <!--  -->
+                                    
                                     <p></p>
                                     <div class="price">
                                         <?php if($record->isPublic == 0){ echo "Free"; }else{?>
@@ -277,9 +277,6 @@
 
 
     jQuery(document).ready(function() {
-
-
-
         jQuery('ul.pagination li a').click(function(e) {
             e.preventDefault();
             var link = jQuery(this).get(0).href;
@@ -293,10 +290,6 @@
             // e.preventDefault();
             // jQuery("#institute").val() = 0;
         });
-
-
-
-
     });
 
     function addToCartAjax(element) {

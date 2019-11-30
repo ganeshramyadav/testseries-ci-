@@ -249,8 +249,12 @@ class Common_model extends CI_Model
     }
 
     function deleteDataFromTbl($tblName, $where){
-        // $this->db->from($tblName);
-        $this->db->where($where);
+        if($where){
+            $whereResult = explode( ",", $where );
+            foreach($whereResult as $whereKey){
+                $this->db->where($whereKey);
+            }
+        }
         $this->db->delete($tblName);
         return $this->db->affected_rows();
     }

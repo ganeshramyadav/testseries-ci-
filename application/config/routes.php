@@ -146,8 +146,15 @@ $route['delete'] = "common/delete";
 $route['invoice/(:any)'] = "common/invoice/$1";
 
 /* Question's */
-$route['questions'] = "common/questions";
-$route['questionsList'] = "common/questionsList";
+/* $route['questions'] = "common/questions";
+$route['questionsList'] = "common/questionsList"; */
+
+$route['questions'] = "common/questionsListing";
+$route['questions/(:num)'] = "common/questionsListing/$1";
+
+/* $route['questionsListing'] = "common/questionsListing";
+$route['questionsListing/(:num)'] = "common/questionsListing/$1"; */
+
 $route['questions/new'] = "common/questionsNew";
 $route['questions/new/addNew'] = "common/questionAdd";
 
@@ -190,90 +197,30 @@ $route['exam'] = "exam/List";
 $route['exam/(:num)'] = "exam/List/$1";
 $route['exam/edit/(:num)'] = "exam/edit/$1";
 $route['exam/edit'] = "exam/update";
-
-
-
-
+$route['exam/new'] = "exam/new";
+$route['exam/new/addNew'] = "exam/addNew";
 
 $route['selectedquestion'] = "exam/questionList";
 $route['selectedquestion/(:num)'] = "exam/questionList/$1";
-
 $route['addquestion'] = "exam/addquestions";
 $route['addquestion/(:num)'] = "exam/addquestions/$1";
 
-
-
-
-// $route['addquestion'] = "exam/addquestions";
-// $route['addquestion/(:num)'] = "exam/addquestions/$1";
-// $route['addquestion/(:num)/(:num)'] = "exam/addquestions/$1/$2";
-
-
-// $route['addquestion'] = "exam/addquestions";
-// $route['addquestion/(:num)/(:num)'] = "exam/addquestions/$1/$2";
 $route['exam/question/new/addNew'] = "exam/addExamQuestion";
-// $route['exam/question/delete'] = "exam/delete";
+$route['exam/question/delete'] = "exam/deleteExamQuestion";
 
+$route['testseries'] = "exam/seriesList";
+$route['testseries/(:num)'] = "exam/seriesList/$1";
+$route['testseries/edit/(:num)'] = "exam/seriesEdit/$1";
+$route['testseries/edit'] = "exam/seriesUpdate";
+$route['testseries/new'] = "exam/seriesNew";
+$route['testseries/new/addNew'] = "exam/seriesAddNew";
 
-$route['testListing'] = "common/testListing";
+$route['selectedexam'] = "exam/examList";
+$route['selectedexam/(:num)'] = "exam/examList/$1";
+$route['addexam'] = "exam/addexam";
+$route['addexam/(:num)'] = "exam/addexam/$1";
 
-
-/* $route['editOlds'] = "studymaterial/editOlds";
-
-$route['editOldSM'] = "studymaterial/editOldSM";
-$route['editOldSM/(:num)'] = "studymaterial/editOldSM/$1";
-
-$route['editSm'] = "studymaterial/editSm";
-$route['deleteSm'] = "studymaterial/deleteSm";
-
-
-$route['addSm'] = "studymaterial/add";
-$route['addCa'] = "studymaterial/add";
-
-$route['addNewSm'] = "studymaterial/addNew";
-$route['addNewCa'] = "studymaterial/addNew";
-
-// Current Affaires
-$route['caListing'] = "currentaffairs/caListing";
-$route['caListing/(:num)'] = "currentaffairs/caListing/$1";
-
-
-$route['editOldCA'] = "currentaffairs/editOldCA";
-$route['editOldCA/(:num)'] = "currentaffairs/editOldCA/$1";
-
-$route['editCa'] = "currentaffairs/editCa";
-$route['deleteCa'] = "currentaffairs/deleteCa"; */
-
-
-// $route['addCa'] = "currentaffairs/addCa";
-// $route['addNewCa'] = "currentaffairs/addNewCa";
-
-// Videos
-
-/* $route['videoListing'] = "videos/videoListing";
-$route['videoListing/(:num)'] = "videos/videoListing/$1"; */
-
-
-/* $route['editOldCA'] = "currentaffairs/editOldCA";
-$route['editOldCA/(:num)'] = "currentaffairs/editOldCA/$1";
-
-$route['editCa'] = "currentaffairs/editCa";
-$route['deleteCa'] = "currentaffairs/deleteCa";
-
-
-$route['addCa'] = "currentaffairs/addCa";
-$route['addNewCa'] = "currentaffairs/addNewCa"; */
-
-
-
-/* $route['userListing'] = 'user/userListing';
-$route['userListing/(:num)'] = "user/userListing/$1";
-$route['addNew'] = "user/addNew";
-$route['addNewUser'] = "user/addNewUser";
-$route['editOld'] = "user/editOld";
-$route['editOld/(:num)'] = "user/editOld/$1";
-$route['editUser'] = "user/editUser";
-$route['deleteUser'] = "user/deleteUser"; */
-
+$route['testseries/exam/new/addNew'] = "exam/addSeriesExam";
+$route['testseries/exam/delete'] = "exam/deleteSeriesExam";
 
 /* Location: ./application/config/routes.php */

@@ -52,6 +52,12 @@
                 <span>Question's</span>
               </a>
             </li>
+            <li>
+              <a href="<?php echo base_url(); ?>testseries">
+                <i class="fa fa-ticket"></i>
+                <span>Test Series</span>
+              </a>
+            </li>
             <!-- <li>
               <a href="<?php echo base_url(); ?>exam" >
                 <i class="fa fa-ticket"></i>
