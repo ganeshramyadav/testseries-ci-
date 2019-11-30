@@ -1,50 +1,68 @@
+
+<link href="<?php echo base_url(); ?>assets/css/listing.css" rel="stylesheet" type="text/css" />
 <style>
     .width{
-        width: max-content;
+        width:1px;
+    }
+    .img{
+        width: 377px;
+        height: auto;
+        padding: 2%;
+    }
+    .bg-yellow{
+        padding: 2px !important;
+    }
+    .bg-yellow,.widget-user-image{
+        text-align: center;
+    }
+    /* .nav>li>a, */
+    .badge{
+        font: -webkit-mini-control;
+    }
+    .social{
+        bottom:-16px !important;
+    }
+    .product-grid3 .social li a{
+        width: 30px !important;
+        height: 30px !important;
+        line-height: 30px !important;
+    }
+    .line-height {
+        line-height: 1.5 !important;
     }
 </style>
 <div class="content-wrapper">
     <section class="content">
         <div class="row">
-            
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <div class="box box-widget widget-user">
-                    <div class="widget-user-header bg-aqua-active">
-                        <h3 class="widget-user-username"><?php echo strtoupper($ExamRecords->title); ?></h3>
-                        <h5 class="widget-user-desc"><?php echo "Institute :-".$ExamRecords->institute_id; ?></h5>
-                        <h5 class="widget-user-desc"><?php echo "Year :-".$ExamRecords->year; ?></h5>
+            <div class="col-md-6 col-sm-6">
+                <div class="box-footer no-padding">
+                        <ul class="nav nav-stacked widget-user-image">
+                            <li>
+                                <?php if(!empty($ExamRecords->image_url)){ ?>
+                                    <img class='img' src = <?php echo base_url().$ExamRecords->image_url; ?> alt='User Avatar'>
+                                <?php }else{
+                                    ?>
+                                    <img class="img" src=<?php echo base_url()."assets/images/pdf.jpg" ?> alt="User Avatar">
+                                <?php } ?>
+                            </li>
+                        </ul>
                     </div>
-
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-3 border-right">
-                                <div class="description-block">
-                                    <h5 class="description-header"><?php echo $CategoryRecords->name; ?></h5>
-                                    <span class="description-text">Category</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 border-right">
-                                <div class="description-block">
-                                    <h5 class="description-header"><?php echo $SubCategoryRecords->name; ?></h5>
-                                    <span class="description-text">SubCategory</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="description-block">
-                                    <h5 class="description-header"><?php echo $ExamRecords->no_of_question; ?></h5>
-                                    <span class="description-text">Number Of Questions</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="description-block">
-                                    <h5 class="description-header"><?php echo $ExamRecords->no_of_question-$count; ?></h5>
-                                    <span class="description-text">Remaining Count</span>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+            <!-- <?php //pre($ExamRecords); ?> -->
+            <div class="col-md-6 col-sm-6">
+                <div class="box box-widget widget-user-2">
+                    <div class="widget-user-header bg-yellow">
+                        <h3 class="username"><?php echo strtoupper($ExamRecords->title)." ( ".$ExamRecords->year." ) "; ?></h3>
+                        <h5 class="desc"><?php echo "Institute :-".$ExamRecords->institute_id; ?></h5>
+                        <h5 class="desc"><?php echo "Created By :-".$ExamRecords->created_by; ?></h5>
+                    </div>
+                    <div class="col-md-12 col-sm-12 box-footer no-padding">
+                        <ul class="nav nav-stacked">
+                            <li><a href="#">Number Of Questions <span class="pull-right badge bg-blue"><?php echo $ExamRecords->no_of_question; ?></span></a></li>
+                            <li><a href="#">Remaining Count <span class="pull-right badge bg-aqua" id="remaing"><?php echo $ExamRecords->no_of_question-$count; ?></span></a></li>
+                            <li><a href="#">Active<span class="pull-right badge bg-green"><?php echo ($ExamRecords->active ? 'Active' : 'InActive'); ?></span></a></li>
+                            <li><a href="#">Duration <span class="pull-right badge bg-red"><?php echo $ExamRecords->duration; ?></span></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -77,12 +95,47 @@
                     </div>
                 </div>
                 <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tr>
+                                <th></th>
+                                <th>Question</th>
+                                <th>Category</th>
+                                <th>SubCategory</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                            <?php
+                            if(!empty($Records))
+                            {
+                                foreach($Records as $record)
+                                {
+                            ?>
+                            <tr>
+                                
+                                <td class="width"></td>
+                                <td class="width"><?php echo $record->question ?></td>
+                                <td class="width"><?php echo $record->catName ?></td>
+                                <td class="width"><?php echo $record->subName ?></td>
+                                <td class="width text-center">
+                                    <a class="btn btn-sm btn-danger deleteProduct" data-toggle="tooltip" data-placement="top" href="#" data-id="<?php echo $record->id; ?>" data-msg='Question in selected exam' data-url='<?php echo $delete ?>' title="Delete"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <?php
+                                }
+                                
+                            }else{
+                                echo "<tr><td>No Records Found!</td></tr>";
+                            }
+                            ?>
+                        </table>
+                    
+                    </div>
+                <!-- <div class="box-body table-responsive no-padding">
                   <table class="table table-hover">
                     <tr>
-                        <!-- <th>Id</th> -->
-                        <th>Question</th>
+                        <th class="text-center">Question</th>
                         <th class="text-center">Category</th>
                         <th class="text-center">SubCategory</th>
+                        
                         <th class="text-center">Actions</th>
                     </tr>
                     <?php
@@ -92,7 +145,6 @@
                         {
                     ?>
                     <tr>
-                        <!-- <td class="width"><?php //echo $record->id ?></td> -->
                         <td class="width"><?php echo $record->question ?></td>
                         <td class="width"><?php echo $record->catName ?></td>
                         <td class="width"><?php echo $record->subName ?></td>
@@ -102,21 +154,20 @@
                     </tr>
                     <?php
                         }
-                        
                     }
                     ?>
                   </table>
-                  
-                </div>
+
+                </div> -->
                 <div class="box-footer clearfix">
                     <?php echo $this->pagination->create_links(); ?>
                 </div>
               </div>
             </div>
-            
         </div>
     </section>
 </div>
+
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/delete.js" charset="utf-8"></script>
 <script type="text/javascript">
     jQuery(document).ready(function(){

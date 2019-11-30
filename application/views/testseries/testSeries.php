@@ -1,4 +1,3 @@
-
 <link href="<?php echo base_url(); ?>assets/css/listing.css" rel="stylesheet" type="text/css" />
 <style>
     .width{
@@ -43,6 +42,7 @@
         background-color: #dd4b39 !important;
     }
 </style>
+
 <div class="content-wrapper">
     <section class="content-header">
       <h1>
@@ -73,27 +73,30 @@
                         </form>
                     </div>
                 </div>
-
                 <!-- <div class="box-body table-responsive no-padding">
                   <table class="table table-hover">
                       <thead>
-                        <?php
+                      <?php
                             if(!empty($Records))
                             {
                         ?>
                         <tr>
+                            <th>image_url</th>
                             <th>Title</th>
-                            <th>Category</th>
-                            <th>SubCategory</th>
-                            <th>Institute</th>
-                            <th>No of Question's</th>
-                            <th>Duration(in Mintes)</th>
-                            <th>year</th>
-                            <th>Active</th>
+                            <th>institute_id</th>
+                            <th>isPublic</th>
+                            <th>price</th>
+                            <th>no_of_exam</th>
                             <th>Created On</th>
-                            <th >Actions</th>
+                            <th>
+                                <div class="row" style="width: 43%;">
+                                    <div class="col-md-4 col-sm-4"></div>
+                                    <div class="col-md-4 col-sm-4">Actions</div>
+                                    <div class="col-md-4 col-sm-4"></div>
+                                </div>
+                            </th>
                         </tr>
-                            <?php }else{ 
+                        <?php }else{ 
                                 echo "<tr><th>Record</th></tr>";
                             }?>
                       </thead>
@@ -105,20 +108,18 @@
                         {
                     ?>
                     <tr>
-                        <td ><?php echo $record->title; ?></td>
-                        <td ><?php echo $record->catName ?></td>
-                        <td ><?php echo $record->subName ?></td>
-                        <td ><?php echo $record->name ?></td>
-                        <td ><?php echo $record->no_of_question ?></td>
-                        <td ><?php echo $record->duration ?></td>
-                        <td ><?php echo $record->year ?></td>
-                        <td ><?php echo $record->active ?></td>
+                        <td ><?php echo $record->image_url; ?></td>
+                        <td ><?php echo $record->Name ?></td>
+                        <td ><?php echo $record->institute_id ?></td>
+                        <td ><?php echo $record->isPublic ?></td>
+                        <td ><?php echo $record->price ?></td>
+                        <td ><?php echo $record->no_of_exam ?></td>
                         <td ><?php echo date("d-m-Y", strtotime($record->created_at)) ?></td>
                         <td >
-                            <div class="row" style="width: 70%;">
+                            <div class="row" style="width: 50%;">
                                 <div class="col-md-4 col-sm-4">
-                                    <form action="<?php echo base_url().$route."/" ?>" method="POST">
-                                        <input type="hidden" name="examId" value="<?php echo $record->id; ?>" />
+                                    <form action="<?php echo base_url().$exam."/" ?>" method="POST">
+                                        <input type="hidden" name="seriesId" value="<?php echo $record->id; ?>" />
                                         <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="View More..."><i class="fa fa-eye"></i></button>
                                     </form>
                                 </div>
@@ -126,9 +127,11 @@
                                     <a class="btn btn-sm btn-info" href="<?php echo base_url().$editRoute.$record->id; ?>" title="Edit"><i class="fa fa-pencil"></i></a>
                                 </div>
                                 <div class="col-md-4 col-sm-4">
-                                    <a class="btn btn-sm btn-danger delete" href="#" data-userid="<?php echo $record->id; ?>" title="Delete"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-sm btn-danger deleteProduct" href="#" data-id="<?php echo $record->id; ?>" data-url="testseries" data-msg="<?php echo $title; ?>" title="Delete"><i class="fa fa-trash"></i></a>
                                 </div>
                             </div>
+                            <a class="btn btn-sm btn-info" href="<?php echo base_url().$editRoute.$record->id; ?>" title="Edit"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-sm btn-danger deleteProduct" href="#" data-id="<?php echo $record->id; ?>" data-url="testseries" data-msg="<?php echo $title; ?>" title="Delete"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                     <?php
@@ -139,11 +142,11 @@
                     ?>
                   </table>
                 </div> -->
-
-                <div class="box-body col-md-12 col-sm-12">
+                <div class="col-md-12 col-sm-12">
                     <?php
                             if (!empty($Records)) {
                                 foreach ($Records as $record){
+                                    // pre($record);
                     ?>
                     <div class="col-md-3 col-sm-6">
                         <div class="product-grid3">
@@ -157,10 +160,13 @@
                                     if($roleId == 1){
                                         ?>
                                         <li>
-                                            <form action="<?php echo base_url().$route."/" ?>" method="POST">
-                                                <input type="hidden" name="examId" value="<?php echo $record->id; ?>" />
-                                                <button style="margin-top: -7px;" class="btn btn-sm btn-success btn-circle" data-toggle="tooltip" data-placement="top" title="View More..."><i class="fa fa-eye"></i></button>
+                                            <form action="<?php echo base_url().$exam."/" ?>" method="POST">
+                                                <input type="hidden" name="seriesId" value="<?php echo $record->id; ?>" />
+                                                <button class="btn btn-sm btn-success btn-circle" data-toggle="tooltip" data-placement="top" title="View More..."><i class="fa fa-eye"></i></button>
                                             </form>
+                                            <!-- <a href='#' class='deleteProduct' data-id='$record->id' data-msg='My Favorite List' data-url='favorite' title='View More'>
+                                                <i id='changeClassName' class='fa fa-eye line-height' aria-hidden='true'></i>
+                                            </a> -->
                                         </li>
                                         <li>
                                             <a class="" href="<?php echo base_url().$editRoute.$record->id; ?>" title="Edit" data-toggle="tooltip" data-placement="top" >
@@ -170,33 +176,33 @@
 
                                         
                                         <li>
-                                            <a href='#' class='deleteProduct btn-danger' data-id='$record->id' data-msg='Examination List' data-url='exam' title='Delete' data-toggle="tooltip" data-placement="top">
+                                            <a href='#' class='deleteProduct btn-danger' data-id='$record->id' data-msg='TestSeries List' data-url='testseries' title='Delete' data-toggle="tooltip" data-placement="top">
                                                 <i id='changeClassName' class='fa fa-trash line-height' aria-hidden='true'></i>
                                             </a>
                                         </li>
                                 <?php
                                     }
+                                    /* if($roleId == 1){
+                                        echo "<li ><a href=".base_url() . $editRoute . $record->id."><i class='fa fa-pencil line-height' ></i></a></li>
+                                        <li ><a class='deleteProduct' href='#' data-id=".$record->id." data-msg=".$title."><i class='fa fa-trash line-height'></i></a></li>";
+                                    } */
                                 ?>
                                 </ul>
                             </div>
                             <div class="product-content">
-                                <h3 class="titles"><a href="#"><?php echo $record->title."( ".$record->year." )"; ?></a></h3>
-                                <span class=""><?php echo $record->catName; ?></span>
-                                <span class=""><?php echo $record->subName; ?></span>
+                                <h3 class="titles"><a href="#"><?php echo $record->Name; ?></a></h3>
+                                <span class=""><?php echo $record->name; ?></span>
+                                <!-- <span class=""><?php echo $record->no_of_exam; ?></span> -->
                                 <div class="">
                                     <ul class="" style=" list-style: none; padding-left: initial;">
-                                        <li>Institute Name : - <?php echo $record->institute_id; ?></li>
-                                        <li>No Of Question : - <?php echo $record->no_of_question; ?></li>
-                                        <li>Duration : - <?php echo $record->duration." (In Minutes)"; ?></li>
-                                        <li>Status : - <?php echo strtoupper($record->active); ?></li>
+                                        <li>No Of Exam : - <?php echo $record->no_of_exam; ?></li>
+                                        <li>Price : - <i id='changeClassName' class='fa fa-inr line-height' aria-hidden='true'></i> <?php echo number_format($record->price, 2); ?></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <?php       }
-                            }else{
-                                echo "No Records Found!";
                             }
                     ?>
                 </div>
@@ -207,7 +213,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="box-footer clearfix">
                     <?php echo $this->pagination->create_links(); ?>
                 </div>
@@ -216,7 +222,7 @@
         </div>
     </section>
 </div>
-<!-- <script type="text/javascript" src="<?php //echo base_url(); ?>assets/js/common.js" charset="utf-8"></script> -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/delete.js" charset="utf-8"></script>
 <script type="text/javascript">
     jQuery(document).ready(function(){
         jQuery('ul.pagination li a').click(function (e) {

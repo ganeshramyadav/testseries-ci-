@@ -15,6 +15,7 @@ class Common extends BaseController
     {
         parent::__construct();
         $this->load->model('user_model');
+        $this->load->model('exam_model');
         $this->load->model('common_model');
         $this->load->library('upload');
         $this->load->library('form_validation');
@@ -550,7 +551,7 @@ class Common extends BaseController
         }
     }
 
-    function delete(){
+    function delete_Old(){
         if($this->isAdmin() == TRUE) {
             echo(json_encode(array('status'=>'access')));
         } else {
@@ -562,6 +563,33 @@ class Common extends BaseController
             $url = $this->input->post('url');
             // echo(json_encode(array('status'=>$id)));
             $result = $this->common_model->delete($url, $id);
+            if ($result > 0) { echo(json_encode(array('status'=>"TRUE"))); }
+            else { echo(json_encode(array('status'=>"FALSE"))); }
+        }
+    }
+
+    function delete(){
+        if($this->isAdmin() == TRUE) {
+            echo(json_encode(array('status'=>'access')));
+        } else {
+            $id = $this->input->post('id');
+            $url = $this->input->post('url');
+            
+            if(empty($id) || empty($url)){
+                redirect('dashboard');
+            }
+
+            if($url == 'testseries'){
+                if(!isset($this->instId)){
+                    echo(json_encode(array('status'=>"Failed")));
+                    die;
+                }
+                $where = "id=$id ,institute_id=$this->instId";
+                $result = $this->common_model->deleteDataFromTbl($url, $where);
+            }else{
+                $where = "id=$id";
+                $result = $this->common_model->deleteDataFromTbl($url, $where);
+            }
             if ($result > 0) { echo(json_encode(array('status'=>"TRUE"))); }
             else { echo(json_encode(array('status'=>"FALSE"))); }
         }
@@ -736,6 +764,45 @@ class Common extends BaseController
         $this->global['pageTitle'] = 'AOA : Questions';
         $data['Category'] = $this->common_model->getAllData('category',NULL,"active=1",NULL);
         $this->loadViews("question/question", $this->global, $data, NULL);
+    }
+
+    public function questionsListing(){
+        $data['title'] = 'Questions';
+        $data['routeName'] = "questions/new";
+        $data['route'] = "questions/";
+        $this->global['pageTitle'] = 'AOA : Questions';
+
+        $tblName = 'questions';
+
+        $pageValue = $this->security->xss_clean($this->input->post('pageValue'));
+        $category = $this->security->xss_clean($this->input->post('category'));
+        $data['category'] = $category;
+
+        $subcategory = $this->security->xss_clean($this->input->post('subcategory'));
+        $data['subcategory'] = $subcategory;
+
+        $data['Category'] = $this->common_model->getAllData('category', null, 'active=1');
+
+        if(!empty($category)){
+            $data['SubCategory'] = $this->common_model->getAllData('subcategory', null, "active=1,category_id=$category");
+        }else{
+            $data['SubCategory'] = 0;
+        }
+
+        $searchTexts = $this->security->xss_clean($this->input->post('searchText'));
+        $data['searchText'] = $searchTexts;
+        $this->load->library('pagination');
+
+        $count = $this->exam_model->questionListCount($searchTexts, $tblName, $category, $subcategory, null );
+        $returns = $this->paginationCompress($data['route'], $count, 10);
+        if($pageValue == 1){
+            $data['Records'] = $this->exam_model->questionList($searchTexts, $tblName, $category, $subcategory, null, $returns["page"], $returns["segment"]);
+        }else{
+            $data['Records'] = null;
+        }
+        
+
+        $this->loadViews("question/questionList", $this->global, $data, NULL);
     }
 
     function questionsNew(){
